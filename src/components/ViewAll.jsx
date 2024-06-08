@@ -1,15 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavBar from './NavBar'
+import axios from 'axios'
 
 const ViewAll = () => {
-    const [data,changeData] = useState(
-        [
-            { "#": 1, "first": "mauuk", "last": "ottoooooo", "handle": "atttmdo" },
-            { "#": 2, "first": "markkkk", "last": "ottoooo", "handle": "atmmmmdo" },
-            { "#": 6, "first": "marrrrrk", "last": "otoooo", "handle": "atmdoooo" },
-            { "#": 9, "first": "mmmmark", "last": "otto", "handle": "atmdo" },
-        ]
-    )
+    const [data,changeData] = useState([])
+    const fetchData=() => {
+        axios("https://jsonplaceholder.typicode.com/todos").then(
+            (response)=>{
+                changeData(response.data)
+            }
+        ).catch()
+
+    }
+    useEffect(
+        ()=>{
+fetchData()
+    },[]
+)
+
+
+
     return (
         <div>
             <NavBar />
@@ -22,10 +32,10 @@ const ViewAll = () => {
 
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">user id</th>
+                                    <th scope="col">id</th>
+                                    <th scope="col">title</th>
+                                   
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,10 +43,9 @@ const ViewAll = () => {
                                     data.map(
                                         (value, index) => {
                                             return <tr>
-                                                <th scope="row">#</th>
-                                                <td>{value.first}</td>
-                                                <td>{value.last}</td>
-                                                <td>{value.handle}</td>
+                                                <td scope="row">{value.userId}</td>
+                                                <td>{value.id}</td>
+                                                <td>{value.title}</td>
                                             </tr>
 
                                         })}
